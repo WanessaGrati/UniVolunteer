@@ -1,13 +1,11 @@
 import {
-    KeyboardAvoidingView,
     Image,
-    Platform,
     SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
-    TextInput, Alert, Animated, ScrollView
+    TextInput, Animated, ScrollView
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
 import {useFonts} from "expo-font";

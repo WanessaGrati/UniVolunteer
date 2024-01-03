@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import Menu from "./assets/screens/voluntar/Menu";
@@ -7,7 +6,6 @@ import Login from "./assets/screens/Login";
 import SetareParolaNoua from "./assets/screens/voluntar/SetareParolaNoua";
 import MenuAdmin from "./assets/screens/admin/MenuAdmin";
 import AddVoluntar from "./assets/screens/admin/AddVoluntar";
-import GenerateQRCode from "./assets/screens/admin/GenerateQRCode";
 import IntroduceDate from "./assets/screens/voluntar/IntroduceDate";
 
 const Stack = createNativeStackNavigator();
@@ -36,5 +34,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-/**/
