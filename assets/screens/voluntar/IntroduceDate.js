@@ -1,19 +1,21 @@
 import {
     Image,
     SafeAreaView,
-    StyleSheet,
     Text,
     TouchableOpacity,
     View,
     TextInput, Animated, ScrollView
 } from "react-native";
 import {StatusBar} from "expo-status-bar";
-import {useFonts} from "expo-font";
 import React, {useState} from "react";
-import {doc, getDoc, setDoc} from "firebase/firestore";
+import {doc, setDoc} from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DATABASE } from "../../../firebase";
+import {buttonStyle, containerStyle, errorStyle, inputStyle, textStyle} from "../../resorces/style";
+import {MontserratFonts} from "../../resorces/MontserratFonts";
 
 const IntroduceDate = ({navigation}) => {
+
+    const auth = FIREBASE_AUTH;
 
     const [nume, setNume] = useState('');
     const [errorNume, setErrorNume] = useState(false);
@@ -30,20 +32,11 @@ const IntroduceDate = ({navigation}) => {
     const [an, setAn] = useState('');
     const [errorAn, setErrorAn] = useState(false);
 
-    const auth = FIREBASE_AUTH;
-
-    const [fontsLoaded] = useFonts({
-        "MontserratBold": require("../../fonts/Montserrat/Montserrat-Bold.ttf"),
-        "MontserratLight": require("../../fonts/Montserrat/Montserrat-Light.ttf"),
-        "MontserratRegular": require("../../fonts/Montserrat/Montserrat-Regular.ttf"),
-        "MontserratMedium": require("../../fonts/Montserrat/Montserrat-Medium.ttf"),
-    });
-
-    if (!fontsLoaded) {
-        return undefined;
-    }
+    const [fontsLoaded] = MontserratFonts();
+    if (!fontsLoaded) return undefined;
 
     const scroll = new Animated.Value(0);
+
     const headerHeight = scroll.interpolate({
         inputRange: [0, 100],
         outputRange: [100, 50],
@@ -131,40 +124,44 @@ const IntroduceDate = ({navigation}) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={containerStyle.container}>
 
                 <StatusBar translucent/>
-                <Animated.View style = {[styles.topBar]}>
-                    <View style={{height: 45, width: '90%', justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={styles.uniVolunteer}>UniVolunteer</Text>
+
+                <Animated.View style={[containerStyle.topReduced, {backgroundColor: '#B4E4FF'}]}>
+                    <View style={[containerStyle.topContainer, {justifyContent: 'center'}]}>
+                        <Text style={textStyle.uniVolunteer}>UniVolunteer</Text>
                     </View>
                 </Animated.View>
+
 
                 <ScrollView
                     onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scroll } } }], { useNativeDriver: false })}
                     scrollEventThrottle={16}
+                    style={containerStyle.middleExtended}
                 >
-                    <Text style={[styles.headerText, styles.paddingTop20, styles.paddingLeft5]}>Introducere</Text>
-                    <Text style={[styles.headerText, styles.paddingLeft5, {paddingBottom: 20}]}>date</Text>
-                    <Text style={styles.subHead}>Completați toate câmpurile!</Text>
+                    <Text style={textStyle.head}>Introducere</Text>
+                    <Text style={textStyle.head}>date</Text>
+                    <Text style={textStyle.subHead}>Completați toate câmpurile!</Text>
+
                     <TextInput
                         placeholder="Nume"
-                        style={[styles.textInput, {marginTop: 40}]}
+                        style={[inputStyle.textInput, {marginTop: 40}]}
                         placeholderTextColor='#999999'
                         value={nume}
                         onChangeText={(text) => setNume(text)}
                     />
                     {
                         errorNume &&
-                        <View style={styles.error}>
-                            <Image style={styles.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={styles.errorText}>Nu ați introdus numele!</Text>
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus numele!</Text>
                         </View>
                     }
 
                     <TextInput
                         placeholder="Prenume"
-                        style={[styles.textInput, {marginTop: 20}]}
+                        style={[inputStyle.textInput, {marginTop: 20}]}
                         placeholderTextColor='#999999'
                         value={prenume}
                         onChangeText={(text) => setPrenume(text)}
@@ -172,15 +169,15 @@ const IntroduceDate = ({navigation}) => {
 
                     {
                         errorPrenume &&
-                        <View style={styles.error}>
-                            <Image style={styles.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={styles.errorText}>Nu ați introdus prenumele!</Text>
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus prenumele!</Text>
                         </View>
                     }
 
                     <TextInput
                         placeholder="Universitatea"
-                        style={[styles.textInput, {marginTop: 20}]}
+                        style={[inputStyle.textInput, {marginTop: 20}]}
                         placeholderTextColor='#999999'
                         value={universitate}
                         onChangeText={(text) => setUniversitate(text)}
@@ -188,16 +185,15 @@ const IntroduceDate = ({navigation}) => {
 
                     {
                         errorUniversitate &&
-                        <View style={styles.error}>
-                            <Image style={styles.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={styles.errorText}>Nu ați introdus universitatea!</Text>
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus universitatea!</Text>
                         </View>
                     }
 
-
                     <TextInput
                         placeholder="Facultatea"
-                        style={[styles.textInput, {marginTop: 20}]}
+                        style={[inputStyle.textInput, {marginTop: 20}]}
                         placeholderTextColor='#999999'
                         value={facultate}
                         onChangeText={(text) => setFacultate(text)}
@@ -205,15 +201,15 @@ const IntroduceDate = ({navigation}) => {
 
                     {
                         errorFacultate &&
-                        <View style={styles.error}>
-                            <Image style={styles.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={styles.errorText}>Nu ați introdus facultatea!</Text>
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus facultatea!</Text>
                         </View>
                     }
 
                     <TextInput
                         placeholder="Anul"
-                        style={[styles.textInput, {marginTop: 20}]}
+                        style={[inputStyle.textInput, {marginTop: 20}]}
                         placeholderTextColor='#999999'
                         value={an}
                         onChangeText={(text) => setAn(text)}
@@ -221,134 +217,23 @@ const IntroduceDate = ({navigation}) => {
 
                     {
                         errorAn &&
-                        <View style={styles.error}>
-                            <Image style={styles.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={styles.errorText}>Nu ați introdus anul!</Text>
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus anul!</Text>
                         </View>
                     }
 
-                    <View style={{height: 100, width: '100%'}}></View>
+                    <View style={{height: 150, width: '100%'}}></View>
+
                 </ScrollView>
 
-                <Animated.View style={styles.bottomBox}>
-                    <TouchableOpacity style={styles.button} onPress={handleButton}>
-                        <Text style={styles.buttonText}>Creare cont</Text>
+                <Animated.View style={containerStyle.bottom}>
+                    <TouchableOpacity style={buttonStyle.button} onPress={handleButton}>
+                        <Text style={buttonStyle.buttonText}>Creare cont</Text>
                     </TouchableOpacity>
                 </Animated.View>
         </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "white"
-    },
-
-    topBar: {
-        backgroundColor: "#B4E4FF",
-        width: "100%",
-        height: '15%',
-        borderBottomRightRadius: 50,
-        borderBottomLeftRadius: 50,
-        paddingTop: 40,
-        paddingLeft: '5%'
-    },
-
-    image: {
-        height: 45,
-        width: 45,
-        justifyContent: 'flex-start'
-    },
-
-    uniVolunteer: {
-        fontSize: 20,
-        fontFamily: 'MontserratRegular',
-    },
-
-    paddingTop40: {
-        paddingTop: 40
-    },
-
-    paddingTop20: {
-        paddingTop: 20
-    },
-
-    paddingLeft5: {
-        paddingLeft: '5%'
-    },
-
-    headerText: {
-        fontFamily: 'MontserratBold',
-        fontSize: 40
-    },
-
-    subHead: {
-        fontFamily: "MontserratMedium",
-        fontSize: 20,
-        paddingLeft: '5%'
-    },
-
-    buttonText: {
-        color: 'white',
-        fontFamily: 'MontserratLight',
-        fontSize: 18
-    },
-
-    button: {
-        width: 200,
-        height: 50,
-        backgroundColor: 'black',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    bottomBox: {
-        //backgroundColor: 'white',
-        width: '100%',
-        height: '10%',
-        position: 'absolute',
-        bottom: 0,
-        borderTopRightRadius: 50,
-        borderTopLeftRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    textInput: {
-        width: '90%',
-        height: 50,
-        borderWidth: 2,
-        borderRadius: 50,
-        paddingLeft: 20,
-        marginLeft: '5%'
-    },
-
-    errorImage: {
-        width: 20,
-        height: 20
-    },
-
-    errorText: {
-        fontSize: 12,
-        fontFamily: "MontserratRegular",
-        color: 'red',
-        marginLeft: 5
-    },
-
-    error: {
-        marginTop: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: '10%'
-    },
-});
-
 export default IntroduceDate;
-
-/*<KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style = {{flex: 1}}
-                enabled={false}
-            >*/

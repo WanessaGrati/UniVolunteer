@@ -1,22 +1,17 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { useFonts } from "expo-font";
 import {signOut} from "firebase/auth";
 import { FIREBASE_AUTH} from "../../../firebase";
+import {buttonStyle, containerStyle, imageStyle, paddingStyle, textStyle} from "../../resorces/style";
+import {MontserratFonts} from "../../resorces/MontserratFonts";
 
 
 const MenuAdmin = ({navigation}) => {
     const auth = FIREBASE_AUTH;
-    const [fontsLoaded] = useFonts({
-        "MontserratMedium": require("../../fonts/Montserrat/Montserrat-Medium.ttf"),
-        "MontserratBold": require("../../fonts/Montserrat/Montserrat-Bold.ttf"),
-        "MontserratLight": require("../../fonts/Montserrat/Montserrat-Light.ttf"),
-    })
 
-    if (!fontsLoaded) {
-        return undefined;
-    }
+    const [fontsLoaded] = MontserratFonts();
+    if (!fontsLoaded) return undefined;
 
     const logOut = async () => {
         try {
@@ -32,146 +27,74 @@ const MenuAdmin = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={containerStyle.container}>
+
             <StatusBar translucent/>
-            <View style={styles.box}>
-                <Text style={styles.appName}>UniVolunteer</Text>
-                <Text style={[styles.salutText, styles.paddingTop40, styles.paddingLeft5]}>Salut,</Text>
-                <Text style={[styles.salutText, styles.paddingLeft5]}>UniVolunteer!</Text>
-                <Text style={[styles.oreDeVoluntariat, styles.paddingLeft5]}>Ai 65 de voluntari.</Text>
-            </View>
 
-            <View style={styles.paddingTop40}>
-                <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                    <TouchableOpacity style={styles.button} onPress={goToAddVoluntar}>
-                        <Image style={styles.image} source={require("../../images/add.png")}/>
-                        <Text style={[{paddingTop: 10}, styles.textButton]}>Adaugă</Text>
-                        <Text style={styles.textButton}>voluntar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {marginLeft: 20}]}>
-                        <Image style={styles.image} source={require("../../images/bell.png")}/>
-                        <Text style={[{paddingTop: 10}, styles.textButton]}>Lista de</Text>
-                        <Text style={styles.textButton}>notificări</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{justifyContent: 'center', flexDirection: 'row', marginTop: 20}}>
-                    <TouchableOpacity style={styles.button}>
-                        <Image style={styles.image} source={require("../../images/qr_code.png")}/>
-                        <Text style={[{paddingTop: 10}, styles.textButton]}>Generare</Text>
-                        <Text style={styles.textButton}>qr-code</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {marginLeft: 20}]} onPress={logOut}>
-                        <Image style={styles.image} source={require("../../images/sign_out.png")}/>
-                        <Text style={[{paddingTop: 10}, styles.textButton]}>Ieșire</Text>
-                        <Text style={styles.textButton}>din cont</Text>
-                    </TouchableOpacity>
+            <View style={containerStyle.topExtended}>
+                <Text style={textStyle.appName}>UniVolunteer</Text>
+                <View style={{paddingTop: 60, paddingLeft: '5%'}}>
+                    <Text style={textStyle.head}>Salut,</Text>
+                    <Text style={textStyle.head}>UniVolunteer!</Text>
+                    <Text style={textStyle.subHead}>Ai 65 de voluntari</Text>
                 </View>
             </View>
 
-            <View style={styles.bottomBox}>
-                <View style={styles.menu}>
-                    <TouchableOpacity>
-                        <Image style={styles.imageMenu} source={require("../../images/home_bold.png")}/>
+            <View style={containerStyle.middleReduced}>
+
+                <View style={{flexDirection: 'row'}}>
+
+                    <TouchableOpacity style={buttonStyle.buttonMenu} onPress={goToAddVoluntar}>
+                        <Image style={imageStyle.imageMenu} source={require("../../images/add.png")}/>
+                        <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Adaugă</Text>
+                        <Text style={buttonStyle.buttonMenuText}>voluntar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image style={styles.imageMenu} source={require("../../images/list.png")}/>
+
+                    <TouchableOpacity style={[buttonStyle.buttonMenu, {marginLeft: 20}]}>
+                        <Image style={imageStyle.imageMenu} source={require("../../images/bell.png")}/>
+                        <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Lista de</Text>
+                        <Text style={buttonStyle.buttonMenuText}>notificări</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image style={styles.imageMenu} source={require("../../images/voluntari.png")}/>
+
+                </View>
+
+                <View style={{flexDirection: 'row', marginTop: 20}}>
+
+                    <TouchableOpacity style={buttonStyle.buttonMenu}>
+                        <Image style={imageStyle.imageMenu} source={require("../../images/qr_code.png")}/>
+                        <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Generare</Text>
+                        <Text style={buttonStyle.buttonMenuText}>qr-code</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={[buttonStyle.buttonMenu, {marginLeft: 20}]} onPress={logOut}>
+                        <Image style={imageStyle.imageMenu} source={require("../../images/sign_out.png")}/>
+                        <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Ieșire</Text>
+                        <Text style={buttonStyle.buttonMenuText}>din cont</Text>
+                    </TouchableOpacity>
+
+                </View>
+
+            </View>
+
+            <View style={containerStyle.bottom}>
+                <View style={containerStyle.menuBottom}>
+
+                    <TouchableOpacity>
+                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/home_bold.png")}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/list.png")}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/voluntari.png")}/>
+                    </TouchableOpacity>
+
                 </View>
             </View>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-
-    box: {
-        width: '100%',
-        height: '38%',
-        backgroundColor: '#F7C8E0',
-        borderBottomRightRadius: 50,
-        borderBottomLeftRadius: 50,
-    },
-
-    appName: {
-        paddingTop: 50,
-        fontSize: 20,
-        fontFamily: 'MontserratMedium',
-        alignSelf: 'center'
-    },
-
-    paddingTop40: {
-        paddingTop: 40
-    },
-
-    paddingTop20: {
-        paddingTop: 20
-    },
-
-    paddingLeft5: {
-        paddingLeft: '5%'
-    },
-
-    salutText: {
-        fontFamily: 'MontserratBold',
-        fontSize: 40
-    },
-
-    oreDeVoluntariat: {
-        fontFamily: 'MontserratLight',
-        fontSize: 21,
-        paddingTop: 20
-    },
-
-    image: {
-        width: 50,
-        height: 50
-    },
-
-    button: {
-        borderWidth: 2,
-        width: 150,
-        height: 150,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 30
-    },
-
-    textButton: {
-        fontFamily: "MontserratLight",
-        fontSize: 15
-    },
-
-    bottomBox: {
-        backgroundColor: 'white',
-        width: '100%',
-        height: '10%',
-        position: 'absolute',
-        bottom: 0,
-        borderTopRightRadius: 50,
-        borderTopLeftRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    menu: {
-        width:'55%',
-        height: 30,
-        backgroundColor:'white',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-    imageMenu: {
-        width: 25,
-        height: 25
-    }
-});
 
 export default MenuAdmin;
