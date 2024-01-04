@@ -70,6 +70,17 @@ export const imageStyle = StyleSheet.create({
         height: 45,
         width: 45,
     },
+
+    imageAdd: {
+        height: 60,
+        width: 60
+    },
+
+    imageStatusActivity: {
+        //aspectRatio: 1,
+        height: 30,
+        width: 30
+    }
 });
 
 export const errorStyle = StyleSheet.create({
@@ -129,6 +140,16 @@ export const textStyle = StyleSheet.create({
         fontFamily: "MontserratRegular",
         fontSize: 13,
         marginLeft: 20
+    },
+
+    titleActivity: {
+        fontSize: 22,
+        fontFamily: "MontserratSemiBold"
+    },
+
+    hoursActivity: {
+        fontSize: 12,
+        fontFamily: "MontserratLight"
     }
 });
 
@@ -191,6 +212,7 @@ export const containerStyle = StyleSheet.create({
         height: '75%',
         backgroundColor: 'white',
         paddingLeft: '5%',
+        paddingRight: '5%',
         paddingTop: 40
     },
 
@@ -204,5 +226,16 @@ export const containerStyle = StyleSheet.create({
         borderTopLeftRadius: 50,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    activity: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderRadius: 25,
+        borderWidth: 2,
+        paddingLeft: 20,
+        paddingRight: 20,
+        alignItems: 'center',
+        height: 75
     }
 });

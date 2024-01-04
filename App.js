@@ -9,6 +9,7 @@ import AddVoluntar from "./assets/screens/admin/AddVoluntar";
 import IntroduceDate from "./assets/screens/voluntar/IntroduceDate";
 import ListaActivitati from "./assets/screens/voluntar/ListaActivitati";
 import GenerateQRCode from "./assets/screens/admin/GenerateQRCode";
+import OreleInregistrate from "./assets/screens/voluntar/OreleInregistrate";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="GenerareQRCode">
+          <Stack.Navigator initialRouteName="OreleInregistrate">
               <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
               <Stack.Screen name="SchimbareParola" component={SetareParolaNoua} options={{headerShown: false}}/>
               <Stack.Screen name="IntroducereDate" component={IntroduceDate} options={{headerShown: false}}/>
@@ -25,6 +26,7 @@ export default function App() {
               <Stack.Screen name="AddVoluntar" component={AddVoluntar} options={{headerShown: false}}/>
               <Stack.Screen name="AddActivity" component={ListaActivitati} options={{headerShown: false}}/>
               <Stack.Screen name="GenerareQRCode" component={GenerateQRCode} options={{headerShown: false}}/>
+              <Stack.Screen name="OreleInregistrate" component={OreleInregistrate} options={{headerShown: false}}/>
           </Stack.Navigator>
       </NavigationContainer>
   );
