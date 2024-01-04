@@ -71,9 +71,9 @@ const CereriActivitati = ({navigation}) => {
             <Animated.View style={[containerStyle.topExtended, {backgroundColor: '#DFFFD8', height: headerHeight}]}>
                 <Text style={textStyle.appName}>UniVolunteer</Text>
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
-                    <Text style={textStyle.head}>Orele</Text>
-                    <Text style={textStyle.head}>înregistrate</Text>
-                    <Text style={textStyle.subHead}>Ai 65 de ore de voluntariat</Text>
+                    <Text style={textStyle.head}>Cereri</Text>
+                    <Text style={textStyle.head}>activități</Text>
+                    <Text style={textStyle.subHead}>Ai x ore de voluntariat</Text>
                 </View>
             </Animated.View>
 
