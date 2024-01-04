@@ -34,6 +34,26 @@ export const buttonStyle = StyleSheet.create({
         alignItems: 'center'
     },
 
+    buttonDecline: {
+        height: 30,
+        width: '45%',
+        backgroundColor: 'white',
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: "#FB6962"
+    },
+
+    buttonApprove: {
+        height: 30,
+        width: '45%',
+        backgroundColor: '#79DE79',
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
     buttonText: {
         color: 'white',
         fontFamily: 'MontserratLight',
@@ -147,6 +167,11 @@ export const textStyle = StyleSheet.create({
         fontFamily: "MontserratSemiBold"
     },
 
+    numePrenume: {
+        fontSize: 18,
+        fontFamily: "MontserratMedium"
+    },
+
     hoursActivity: {
         fontSize: 12,
         fontFamily: "MontserratLight"
@@ -229,13 +254,16 @@ export const containerStyle = StyleSheet.create({
     },
 
     activity: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         borderRadius: 25,
         borderWidth: 2,
         paddingLeft: 20,
         paddingRight: 20,
-        alignItems: 'center',
+        justifyContent: 'center',
         height: 75
+    },
+    activityRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     }
 });
