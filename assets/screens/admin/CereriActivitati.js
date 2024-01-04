@@ -19,15 +19,17 @@ const CereriActivitati = ({navigation}) => {
         extrapolate: 'clamp'
     });
 
-    const ActivityItemWaiting = ({title, nume, prenume, hours}) => (
+    const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre}) => (
         <View>
             <View style={paddingStyle.paddingTop20}/>
 
-            <View style={[containerStyle.activity, {height: 150}]}>
+            <View style={[containerStyle.activity, {height: 170}]}>
                 <View>
                     <Text style={textStyle.titleActivity}>{title}</Text>
                     <Text style={textStyle.numePrenume}>{nume} {prenume}</Text>
                     <Text style={textStyle.hoursActivity}>{hours}</Text>
+                    <View style={{paddingTop: 10}}/>
+                    <Text style={[textStyle.numePrenume, {fontSize: 14, fontFamily: "MontserratSemiBold"}]}>Total: {totalOre} ore</Text>
                 </View>
 
                 <View style={paddingStyle.paddingTop20}/>
@@ -45,16 +47,26 @@ const CereriActivitati = ({navigation}) => {
         </View>
     );
 
-    const ActivityItem = ({title, nume, prenume, hours, statusImage}) => (
+    const goToHome = () => {
+        navigation.navigate('MeniuAdmin');
+    }
+
+    const goToVoluntari = () => {
+        navigation.navigate('VoluntariInregistrati');
+    }
+
+    const ActivityItem = ({title, nume, prenume, hours, statusImage, totalOre}) => (
         <View>
             <View style={paddingStyle.paddingTop20}/>
 
-            <View style={[containerStyle.activity, {height: 100}]}>
+            <View style={[containerStyle.activity, {height: 120}]}>
                 <View style={containerStyle.activityRow}>
                     <View>
                         <Text style={textStyle.titleActivity}>{title}</Text>
                         <Text style={textStyle.numePrenume}>{nume} {prenume}</Text>
                         <Text style={textStyle.hoursActivity}>{hours}</Text>
+                        <View style={{paddingTop: 10}}/>
+                        <Text style={[textStyle.numePrenume, {fontSize: 14, fontFamily: "MontserratSemiBold"}]}>Total: {totalOre} ore</Text>
                     </View>
 
                     <Image style={imageStyle.imageStatusActivity} source={statusImage}/>
@@ -73,7 +85,7 @@ const CereriActivitati = ({navigation}) => {
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Cereri</Text>
                     <Text style={textStyle.head}>activități</Text>
-                    <Text style={textStyle.subHead}>Ai x ore de voluntariat</Text>
+                    <Text style={textStyle.subHead}>Ai x de cereri noi</Text>
                 </View>
             </Animated.View>
 
@@ -88,6 +100,7 @@ const CereriActivitati = ({navigation}) => {
                     hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
+                    totalOre="2"
                 />
 
                 <ActivityItem
@@ -96,6 +109,7 @@ const CereriActivitati = ({navigation}) => {
                     nume="Nume"
                     prenume="Prenume"
                     statusImage={require('../../images/declined-red.png')}
+                    totalOre="5"
                 />
 
                 <ActivityItemWaiting 
@@ -103,6 +117,7 @@ const CereriActivitati = ({navigation}) => {
                     hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
+                    totalOre="2"
                 />
 
                 <ActivityItem
@@ -111,6 +126,7 @@ const CereriActivitati = ({navigation}) => {
                     nume="Nume"
                     prenume="Prenume"
                     statusImage={require('../../images/approved-green.png')}
+                    totalOre="5"
                 />
 
                 <View style={{height: 150, width: '100%'}}></View>
@@ -119,7 +135,7 @@ const CereriActivitati = ({navigation}) => {
             <View style={containerStyle.bottom}>
                 <View style={containerStyle.menuBottom}>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToHome}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/home.png")}/>
                     </TouchableOpacity>
 
@@ -127,7 +143,7 @@ const CereriActivitati = ({navigation}) => {
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list_bold.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToVoluntari}>
                     <Image style={imageStyle.imageMenuBottom} source={require("../../images/voluntari.png")}/>
                     </TouchableOpacity>
 

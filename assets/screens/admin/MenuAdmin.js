@@ -24,7 +24,19 @@ const MenuAdmin = ({navigation}) => {
 
     const goToAddVoluntar = () => {
         navigation.navigate('AddVoluntar');
-    }
+    };
+
+    const goToGenerateQRCode = () => {
+        navigation.navigate('GenerareQRCode');
+    };
+
+    const goToVoluntari = () => {
+        navigation.navigate('VoluntariInregistrati');
+    };
+
+    const goToActivities = () => {
+        navigation.navigate('CereriActivitati');
+    };
 
     return (
         <View style={containerStyle.container}>
@@ -50,7 +62,7 @@ const MenuAdmin = ({navigation}) => {
                         <Text style={buttonStyle.buttonMenuText}>voluntar</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[buttonStyle.buttonMenu, {marginLeft: 20}]}>
+                    <TouchableOpacity style={[buttonStyle.buttonMenu, {marginLeft: 20}]} onPress={goToActivities}>
                         <Image style={imageStyle.imageMenu} source={require("../../images/bell.png")}/>
                         <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Lista de</Text>
                         <Text style={buttonStyle.buttonMenuText}>notificări</Text>
@@ -60,7 +72,7 @@ const MenuAdmin = ({navigation}) => {
 
                 <View style={{flexDirection: 'row', marginTop: 20}}>
 
-                    <TouchableOpacity style={buttonStyle.buttonMenu}>
+                    <TouchableOpacity style={buttonStyle.buttonMenu} onPress={goToGenerateQRCode}>
                         <Image style={imageStyle.imageMenu} source={require("../../images/qr_code.png")}/>
                         <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Generare</Text>
                         <Text style={buttonStyle.buttonMenuText}>qr-code</Text>
@@ -83,11 +95,11 @@ const MenuAdmin = ({navigation}) => {
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/home_bold.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToActivities}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToVoluntari}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/voluntari.png")}/>
                     </TouchableOpacity>
 

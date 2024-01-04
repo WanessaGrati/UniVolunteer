@@ -12,10 +12,14 @@ import {StatusBar} from "expo-status-bar";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {buttonStyle, containerStyle, imageStyle, inputStyle, textStyle} from "../../resorces/style";
 
-const GenerateQRCode = () => {
+const GenerateQRCode = ({navigation}) => {
 
     const [fontsLoaded] = MontserratFonts();
     if (!fontsLoaded) return undefined;
+
+    const goToHome = () => {
+        navigation.navigate('MeniuAdmin');
+    };
 
     return (
         <SafeAreaView style={containerStyle.container}>
@@ -30,7 +34,7 @@ const GenerateQRCode = () => {
                 <View style={containerStyle.topReduced}>
 
                     <View style={containerStyle.topContainer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={goToHome}>
                             <Image style={imageStyle.imageBack} source={require("../../images/inapoi.png")}/>
                         </TouchableOpacity>
 
@@ -50,12 +54,12 @@ const GenerateQRCode = () => {
                     <Text style={[textStyle.detail, {marginTop: 20}]}>Titlul activității:*</Text>
                     <TextInput
                         placeholder="Introduceți titlul activității"
-                        style={[inputStyle.textInput, {marginTop: 5}]}
+                        style={[inputStyle.textInput, {marginTop: 5, width: '100%'}]}
                         placeholderTextColor='#999999'
                     />
 
                     <Text style={[textStyle.detail, {marginTop: 20}]}>De la:*</Text>
-                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '90%'}}>
+                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '100%'}}>
                         <TextInput
                             placeholder="zz.ll.aaaa"
                             style={[inputStyle.textInput, {width: '60%'}]}
@@ -63,14 +67,14 @@ const GenerateQRCode = () => {
                         />
 
                         <TextInput
-                            placeholder="oo.mm"
+                            placeholder="oo:mm"
                             style={[inputStyle.textInput, {width: '30%'}]}
                             placeholderTextColor='#999999'
                         />
                     </View>
 
                     <Text style={[textStyle.detail, {marginTop: 20}]}>Până la:*</Text>
-                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '90%'}}>
+                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '100%'}}>
                         <TextInput
                             placeholder="zz.ll.aaaa"
                             style={[inputStyle.textInput, {width: '60%'}]}
@@ -78,7 +82,7 @@ const GenerateQRCode = () => {
                         />
 
                         <TextInput
-                            placeholder="oo.mm"
+                            placeholder="oo:mm"
                             style={[inputStyle.textInput, {width: '30%'}]}
                             placeholderTextColor='#999999'
                         />

@@ -37,6 +37,14 @@ const VoluntariInregistrati = ({navigation}) => {
         </View>
     );
 
+    const goToHome = () => {
+        navigation.navigate('MeniuAdmin');
+    }
+
+    const goToActivities = () => {
+        navigation.navigate('CereriActivitati');
+    }
+
     return(
         <SafeAreaView style={containerStyle.container}>
 
@@ -83,11 +91,11 @@ const VoluntariInregistrati = ({navigation}) => {
             <View style={containerStyle.bottom}>
                 <View style={containerStyle.menuBottom}>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToHome}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/home.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToActivities}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list.png")}/>
                     </TouchableOpacity>
 
@@ -97,8 +105,6 @@ const VoluntariInregistrati = ({navigation}) => {
 
                 </View>
             </View>
-
-
         </SafeAreaView>
     )
 };
