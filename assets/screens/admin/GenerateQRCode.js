@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -10,12 +10,78 @@ import {
 } from 'react-native';
 import {StatusBar} from "expo-status-bar";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
-import {buttonStyle, containerStyle, imageStyle, inputStyle, textStyle} from "../../resorces/style";
+import {buttonStyle, containerStyle, imageStyle, inputStyle, textStyle, errorStyle} from "../../resorces/style";
+import verifyValidDate, { calculateInterval } from '../../resorces/DateAndTime';
 
 const GenerateQRCode = ({navigation}) => {
 
+    const [titlu, setTitlu] = useState('');
+    const [errorTitlu, setErrorTitlu] = useState(false);
+
+    const [date, setDate] = useState('');
+    const [errorDate, setErrorDate] = useState(false);
+    const [errorValidDate, setErrorValidDate] = useState(false);
+
+    const [hours, setHours] = useState('');
+    const [errorHours, setErrorHours] = useState(false);
+
     const [fontsLoaded] = MontserratFonts();
     if (!fontsLoaded) return undefined;
+
+    const verifyDate = () => {
+        if (verifyValidDate(date)) {
+            setErrorValidDate(false);
+            return 1;
+        }
+
+        else {
+            setErrorValidDate(true);
+            return 0;
+        }
+    };
+
+    const verifyEmptyTitlu = () => {
+        if (titlu) {
+            setErrorTitlu(false);
+            return 1;
+        }
+
+        else {
+            setErrorTitlu(true);
+            return 0;
+        }
+    }
+
+    const verifyEmptyDate = () => {
+        if (date) {
+            setErrorDate(false);
+            return 1;
+        }
+
+        else {
+            setErrorDate(true);
+            return 0;
+        }
+    }
+
+    const verifyEmptyHours = () => {
+        if (hours) {
+            setErrorHours(false);
+            return 1;
+        }
+
+        else {
+            setErrorHours(true);
+            return 0;
+        }
+    }
+
+    const handleButton = () => {
+        verifyEmptyTitlu();
+        verifyEmptyDate();
+        verifyEmptyHours();
+        verifyDate();
+    }
 
     const goToHome = () => {
         navigation.navigate('MeniuAdmin');
@@ -56,41 +122,67 @@ const GenerateQRCode = ({navigation}) => {
                         placeholder="Introduceți titlul activității"
                         style={[inputStyle.textInput, {marginTop: 5, width: '100%'}]}
                         placeholderTextColor='#999999'
+                        value={titlu}
+                        onChangeText={(text) => setTitlu(text)}
                     />
 
-                    <Text style={[textStyle.detail, {marginTop: 20}]}>De la:*</Text>
-                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '100%'}}>
-                        <TextInput
-                            placeholder="zz.ll.aaaa"
-                            style={[inputStyle.textInput, {width: '60%'}]}
-                            placeholderTextColor='#999999'
-                        />
+                    {
+                        errorTitlu &&
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus titlul activității!</Text>
+                        </View>
+                    }
 
-                        <TextInput
-                            placeholder="oo:mm"
-                            style={[inputStyle.textInput, {width: '30%'}]}
-                            placeholderTextColor='#999999'
-                        />
-                    </View>
+                    <Text style={[textStyle.detail, {marginTop: 20}]}>Data:*</Text>
+                    
+                    <TextInput
+                        placeholder="Introduceti în formatul: zz.ll.aaaa"
+                        style={[inputStyle.textInput, {width: '100%'}]}
+                        placeholderTextColor='#999999'
+                        value={date}
+                        onChangeText={(text) => setDate(text)}
+                        keyboardType='numeric'
+                    />
 
-                    <Text style={[textStyle.detail, {marginTop: 20}]}>Până la:*</Text>
-                    <View style={{flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', width: '100%'}}>
-                        <TextInput
-                            placeholder="zz.ll.aaaa"
-                            style={[inputStyle.textInput, {width: '60%'}]}
-                            placeholderTextColor='#999999'
-                        />
+                    {
+                        errorDate &&
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Nu ați introdus data!</Text>
+                        </View>
+                    }
 
-                        <TextInput
-                            placeholder="oo:mm"
-                            style={[inputStyle.textInput, {width: '30%'}]}
-                            placeholderTextColor='#999999'
-                        />
-                    </View>
+                    {
+                        !errorDate && errorValidDate &&
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Introduceți o dată validă!</Text>
+                        </View>
+                    }
+
+                    <Text style={[textStyle.detail, {marginTop: 20}]}>Orele de voluntariat:*</Text>
+                    
+                    <TextInput
+                        placeholder="Introduceți orele"
+                        style={[inputStyle.textInput, {width: '100%'}]}
+                        placeholderTextColor='#999999'
+                        keyboardType='numeric'
+                        value={hours}
+                        onChangeText={(text) => setHours(text)}
+                    />
+
+                    {
+                        errorHours &&
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Introduceți orele!</Text>
+                        </View>
+                    }
                 </View>
 
                 <View style={containerStyle.bottom}>
-                    <TouchableOpacity style={buttonStyle.button}>
+                    <TouchableOpacity style={buttonStyle.button} onPress={handleButton}>
                         <Text style={buttonStyle.buttonText}>Generează</Text>
                     </TouchableOpacity>
                 </View>
