@@ -19,6 +19,9 @@ const CereriActivitati = ({navigation}) => {
     const [nume, setNume] = useState('');
     const [prenume, setPrenume] = useState('');
     const [userUID, setUserUID] = useState('');
+    const [newActivities, setNewActivities] = useState(0);
+
+    const [pressedButton, setPressedButton] = useState(false);
 
     const [fontsLoaded] = MontserratFonts();
 
@@ -39,7 +42,7 @@ const CereriActivitati = ({navigation}) => {
 
         getUsers().then(() => console.log("\n"));
 
-    }, [approveButton, declineButton, ActivityItemWaiting]);
+    }, [pressedButton]);
 
     if (!fontsLoaded) return undefined;
 
@@ -62,6 +65,8 @@ const CereriActivitati = ({navigation}) => {
         }, {
             merge: true
         });
+
+        setPressedButton(!pressedButton);
     }
 
     const declineButton = async (userUID, activity) => {
@@ -74,6 +79,8 @@ const CereriActivitati = ({navigation}) => {
         }, {
             merge: true
         });
+
+        setPressedButton(!pressedButton);
     }
 
     const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre, onApprove, onDecline}) => (
@@ -149,7 +156,7 @@ const CereriActivitati = ({navigation}) => {
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Cereri</Text>
                     <Text style={textStyle.head}>activități</Text>
-                    <Text style={textStyle.subHead}>Ai x de cereri noi</Text>
+                    <Text style={textStyle.subHead}>Ai {newActivities} cereri noi</Text>
                 </View>
             </Animated.View>
 
@@ -167,10 +174,8 @@ const CereriActivitati = ({navigation}) => {
                                 Object.keys(users[userID]).map((activityKey) => {
                                     const activity = users[userID][activityKey];
 
-                                    //console.log(activityKey);
-                                    //console.log(activity.uid);
-
                                     if (activity.status === "waiting") {
+                                        //setNewActivities(newActivities + 1);
                                         return (
                                             <View key = {activityKey}>
                                                 <ActivityItemWaiting 
