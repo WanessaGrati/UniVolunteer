@@ -3,11 +3,39 @@ import {Animated, Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View}
 import {StatusBar} from "expo-status-bar";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {Dimensions} from "react-native";
+import {useEffect, useState} from "react";
+import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
+import {doc, getDoc} from "firebase/firestore";
 
 
 const OreleInregistrate = ({navigation}) => {
 
+    const auth = FIREBASE_AUTH;
+    const database = FIREBASE_DATABASE;
+
+    const [activities, setActivities] = useState({});
+    const [totalActivities, setTotalActivities] = useState(false);
+
     const [fontsLoaded] = MontserratFonts();
+
+    useEffect( () => {
+        const getUser = async () => {
+
+            const user = auth.currentUser;
+            const userDataActivities = await getDoc(doc(database, "activitati", user.uid));
+
+            const userActivities = userDataActivities.data().activities;
+            const userTotalActivities = userDataActivities.data().totalActivities;
+            setActivities(userActivities);
+
+            if (userTotalActivities > 0) setTotalActivities(true);
+            else setTotalActivities(false);
+        }
+
+        getUser().then(() => console.log(""));
+
+    }, []);
+
     if (!fontsLoaded) return undefined;
 
     const screenHeight = Dimensions.get('window').height;
@@ -19,17 +47,39 @@ const OreleInregistrate = ({navigation}) => {
         extrapolate: 'clamp'
     });
 
-    const ActivityItem = ({title, hours, statusImage}) => (
+    const goToMenu = () => {
+        navigation.navigate('MeniuVoluntar');
+    };
+
+    const goToAddActivity = () => {
+        navigation.navigate("AddActivity");
+    };
+
+    const pressButton = () => {}
+
+    const imageActivity = (status) => {
+        switch (status) {
+            case 'waiting': return require('../../images/waiting-yellow.png');
+            case 'declined': return require('../../images/declined-red.png');
+            case 'aproved': return require('../../images/approved-green.png');
+        }
+    }
+
+    const ActivityItem = ({title, hours, statusImage, totalOre}) => (
         <View>
             <View style={paddingStyle.paddingTop20}/>
 
             <View style={containerStyle.activity}>
-                <View>
-                    <Text style={textStyle.titleActivity}>{title}</Text>
-                    <Text style={textStyle.hoursActivity}>{hours}</Text>
-                </View>
+                <View style={containerStyle.activityRow}>
+                    <View>
+                        <Text style={textStyle.titleActivity}>{title}</Text>
+                        <Text style={textStyle.hoursActivity}>{hours}</Text>
+                        <View style={{paddingTop: 10}}/>
+                        <Text style={[textStyle.numePrenume, {fontSize: 14, fontFamily: "MontserratSemiBold"}]}>Total: {totalOre} ore</Text>
+                    </View>
 
-                <Image style={imageStyle.imageStatusActivity} source={statusImage}/>
+                    <Image style={imageStyle.imageStatusActivity} source={statusImage}/>
+                </View>
             </View>
         </View>
     );
@@ -53,16 +103,24 @@ const OreleInregistrate = ({navigation}) => {
                 scrollEventThrottle={16}
                 style={[containerStyle.middleExtended, {paddingTop: 20}]}
             >
-
-                <ActivityItem title="Titlu" hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa" statusImage={require('../../images/waiting-yellow.png')} />
-                <ActivityItem title="Titlu" hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa" statusImage={require('../../images/declined-red.png')} />
-                <ActivityItem title="Titlu" hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa" statusImage={require('../../images/approved-green.png')} />
+                {
+                    totalActivities &&
+                    Object.entries(activities).map(([activityKey, activity]) => (
+                    <View key={activityKey}>
+                        <ActivityItem
+                            title={activity.titlu}
+                            hours={activity.date}
+                            statusImage={imageActivity(activity.status)}
+                            totalOre={activity.hours}
+                        />
+                    </View>
+                ))}
 
                 <View style={{height: 150, width: '100%'}}></View>
             </ScrollView>
 
             <View style={{width: '100%', alignItems: 'center', position: 'absolute', bottom: '12%'}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={goToAddActivity}>
                     <Image style={imageStyle.imageAdd} source={require("../../images/add-bold.png")}/>
                 </TouchableOpacity>
             </View>
@@ -70,11 +128,11 @@ const OreleInregistrate = ({navigation}) => {
             <View style={containerStyle.bottom}>
                 <View style={containerStyle.menuBottom}>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToMenu}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/home.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={pressButton}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list_bold.png")}/>
                     </TouchableOpacity>
 

@@ -97,7 +97,7 @@ const CereriActivitati = ({navigation}) => {
 
                 <ActivityItemWaiting 
                     title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
+                    hours="oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
                     totalOre="2"
@@ -105,7 +105,7 @@ const CereriActivitati = ({navigation}) => {
 
                 <ActivityItem
                     title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
+                    hours="oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
                     statusImage={require('../../images/declined-red.png')}
@@ -114,7 +114,7 @@ const CereriActivitati = ({navigation}) => {
 
                 <ActivityItemWaiting 
                     title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
+                    hours="oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
                     totalOre="2"
@@ -122,7 +122,7 @@ const CereriActivitati = ({navigation}) => {
 
                 <ActivityItem
                     title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa - oo.mm zz.ll.aaaa"
+                    hours="oo.mm zz.ll.aaaa"
                     nume="Nume"
                     prenume="Prenume"
                     statusImage={require('../../images/approved-green.png')}

@@ -259,7 +259,7 @@ export const containerStyle = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         justifyContent: 'center',
-        height: 75
+        height: 100
     },
     activityRow: {
         flexDirection: 'row',

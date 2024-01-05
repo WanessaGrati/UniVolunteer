@@ -37,12 +37,6 @@ const IntroduceDate = ({navigation}) => {
 
     const scroll = new Animated.Value(0);
 
-    const headerHeight = scroll.interpolate({
-        inputRange: [0, 100],
-        outputRange: [100, 50],
-        extrapolate: 'clamp'
-    });
-
     const verifyNume = () => {
         if (nume) {
             setErrorNume(false);
@@ -109,6 +103,7 @@ const IntroduceDate = ({navigation}) => {
             const user = auth.currentUser;
             console.log(user);
             const db = FIREBASE_DATABASE;
+
             setDoc(doc(db, "voluntarInfo", user.uid), {
                 Email: user.email,
                 Nume: nume,

@@ -24,7 +24,11 @@ const Menu = ({navigation}) => {
 
     const goToAddActivity = () => {
         navigation.navigate('AddActivity');
-    }
+    };
+
+    const goToActivities = () => {
+        navigation.navigate('OreleInregistrate');
+    };
 
     return (
         <View style={containerStyle.container}>
@@ -81,7 +85,7 @@ const Menu = ({navigation}) => {
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/home_bold.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToActivities}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list.png")}/>
                     </TouchableOpacity>
 
