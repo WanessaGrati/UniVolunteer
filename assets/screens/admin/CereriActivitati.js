@@ -5,7 +5,7 @@ import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {Dimensions} from "react-native";
 import {useEffect, useState} from "react";
 import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
-import {collection, doc, getDoc, getDocs} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
 
 
 const CereriActivitati = ({navigation}) => {
@@ -52,11 +52,7 @@ const CereriActivitati = ({navigation}) => {
         extrapolate: 'clamp'
     });
 
-    const approveButton = (userUID) => {
-
-    }
-
-    const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre}) => (
+    const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre, onApprove, onDecline}) => (
         <View>
             <View style={paddingStyle.paddingTop20}/>
 
@@ -72,11 +68,11 @@ const CereriActivitati = ({navigation}) => {
                 <View style={paddingStyle.paddingTop20}/>
 
                 <View style={containerStyle.activityRow}>
-                    <TouchableOpacity style={buttonStyle.buttonDecline}>
+                    <TouchableOpacity style={buttonStyle.buttonDecline} onPress={onDecline}>
                         <Text style={[buttonStyle.buttonText, {fontSize: 16, color: "#FB6962"}]}>Refuză</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={buttonStyle.buttonApprove}>
+                    <TouchableOpacity style={buttonStyle.buttonApprove} onPress={onApprove}>
                         <Text style={[buttonStyle.buttonText, {fontSize: 16}]}>Acceptă</Text>
                     </TouchableOpacity>
                 </View>
@@ -119,6 +115,18 @@ const CereriActivitati = ({navigation}) => {
         </View>
     );
 
+    const approveButton = async (userUID, activity) => {
+        await updateDoc(doc(database, "activitati", userUID, "activities", activity), {
+            status: "aproved"
+        });
+    }
+
+    const declineButton = async (userUID, activity) => {
+        await updateDoc(doc(database, "activitati", userUID, "activities", activity), {
+            status: "declined"
+        });
+    }
+
     return(
         <SafeAreaView style={containerStyle.container}>
 
@@ -158,6 +166,8 @@ const CereriActivitati = ({navigation}) => {
                                                     nume={activity.nume}
                                                     prenume={activity.prenume}
                                                     totalOre={activity.hours}
+                                                    onApprove={() => approveButton(userID, activity)}
+                                                    onDecline={() => declineButton(userID, activity)}
                                                 />
                                             </View>
                                         )
