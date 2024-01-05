@@ -95,6 +95,13 @@ const GenerateQRCode = ({navigation}) => {
             const user = auth.currentUser;
 
             const userDataActivities = await getDoc(doc(database, "activitati", user.uid));
+            const userNumePrenume = await getDoc(doc(database, "voluntarInfo", user.uid));
+            const nume = userNumePrenume.data().Nume;
+            const prenume = userNumePrenume.data().Prenume;
+
+            console.log(nume);
+            console.log(prenume);
+
             if (!userDataActivities.exists()) {
                 setDoc(doc(database, "activitati", user.uid), {
                     totalActivities: 0
@@ -115,7 +122,9 @@ const GenerateQRCode = ({navigation}) => {
                     titlu,
                     date,
                     hours,
-                    status: 'waiting'
+                    status: 'waiting',
+                    nume,
+                    prenume
                 }
             };
 

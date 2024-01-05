@@ -12,6 +12,7 @@ import {StatusBar} from "expo-status-bar";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {buttonStyle, containerStyle, imageStyle, inputStyle, textStyle, errorStyle} from "../../resorces/style";
 import verifyValidDate, { calculateInterval } from '../../resorces/DateAndTime';
+import QRCode from 'react-native-qrcode-svg';
 
 const GenerateQRCode = ({navigation}) => {
 

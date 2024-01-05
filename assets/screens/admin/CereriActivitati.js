@@ -3,11 +3,44 @@ import {Animated, Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View}
 import {StatusBar} from "expo-status-bar";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {Dimensions} from "react-native";
+import {useEffect, useState} from "react";
+import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
+import {collection, doc, getDoc, getDocs} from "firebase/firestore";
 
 
 const CereriActivitati = ({navigation}) => {
 
+    const auth = FIREBASE_AUTH;
+    const database = FIREBASE_DATABASE;
+
+    const [users, setUsers] = useState({});
+    const [totalActivities, setTotalActivities] = useState(false);
+
+    const [nume, setNume] = useState('');
+    const [prenume, setPrenume] = useState('');
+    const [userUID, setUserUID] = useState('');
+
     const [fontsLoaded] = MontserratFonts();
+
+    useEffect( () => {
+        const getUsers = async () => {
+            const usersActivities = await getDocs(collection(database, "activitati"));
+
+            const data = usersActivities.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data().activities,
+            }));
+
+            setUsers(data);
+
+            if (data === null || data === undefined) setTotalActivities(false);
+            else setTotalActivities(true);
+        }
+
+        getUsers().then(() => console.log("\n"));
+
+    }, []);
+
     if (!fontsLoaded) return undefined;
 
     const screenHeight = Dimensions.get('window').height;
@@ -18,6 +51,10 @@ const CereriActivitati = ({navigation}) => {
         outputRange: [screenHeight * 0.4, screenHeight * 0.15],
         extrapolate: 'clamp'
     });
+
+    const approveButton = (userUID) => {
+
+    }
 
     const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre}) => (
         <View>
@@ -53,6 +90,13 @@ const CereriActivitati = ({navigation}) => {
 
     const goToVoluntari = () => {
         navigation.navigate('VoluntariInregistrati');
+    }
+
+    const imageActivity = (status) => {
+        switch (status) {
+            case 'declined': return require('../../images/declined-red.png');
+            case 'aproved': return require('../../images/approved-green.png');
+        }
     }
 
     const ActivityItem = ({title, nume, prenume, hours, statusImage, totalOre}) => (
@@ -95,7 +139,80 @@ const CereriActivitati = ({navigation}) => {
                 style={[containerStyle.middleExtended, {paddingTop: 20}]}
             >
 
-                <ActivityItemWaiting 
+                {
+                    totalActivities &&
+                    Object.keys(users).map((userID) => (
+                        <View key = {userID}>
+                            {
+                                Object.keys(users[userID]).map((activityKey) => {
+                                    const activity = users[userID][activityKey];
+
+                                    console.log(users[userID][activityKey]);
+
+                                    if (activity.status === "waiting") {
+                                        return (
+                                            <View key = {activityKey}>
+                                                <ActivityItemWaiting 
+                                                    title={activity.titlu} 
+                                                    hours={activity.date}
+                                                    nume={activity.nume}
+                                                    prenume={activity.prenume}
+                                                    totalOre={activity.hours}
+                                                />
+                                            </View>
+                                        )
+                                    } 
+                                    else if (activity.status === 'declined' || activity.status === 'aproved') {
+                                        return (
+                                            <View key = {activityKey}>
+                                                <ActivityItem
+                                                    title={activity.titlu} 
+                                                    hours={activity.date}
+                                                    nume={activity.nume}
+                                                    prenume={activity.prenume}
+                                                    statusImage={imageActivity(activity.status)}
+                                                    totalOre={activity.hours}
+                                                />
+                                            </View>
+                                        )
+                                    }
+                                })
+                            }
+
+                        </View>
+                    ))
+                }
+
+
+                <View style={{height: 150, width: '100%'}}></View>
+            </ScrollView>
+
+            <View style={containerStyle.bottom}>
+                <View style={containerStyle.menuBottom}>
+
+                    <TouchableOpacity onPress={goToHome}>
+                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/home.png")}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/list_bold.png")}/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={goToVoluntari}>
+                    <Image style={imageStyle.imageMenuBottom} source={require("../../images/voluntari.png")}/>
+                    </TouchableOpacity>
+
+                </View>
+            </View>
+
+
+        </SafeAreaView>
+    )
+};
+
+export default CereriActivitati;
+
+/*<ActivityItemWaiting 
                     title="Titlu" 
                     hours="oo.mm zz.ll.aaaa"
                     nume="Nume"
@@ -127,32 +244,4 @@ const CereriActivitati = ({navigation}) => {
                     prenume="Prenume"
                     statusImage={require('../../images/approved-green.png')}
                     totalOre="5"
-                />
-
-                <View style={{height: 150, width: '100%'}}></View>
-            </ScrollView>
-
-            <View style={containerStyle.bottom}>
-                <View style={containerStyle.menuBottom}>
-
-                    <TouchableOpacity onPress={goToHome}>
-                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/home.png")}/>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Image style={imageStyle.imageMenuBottom} source={require("../../images/list_bold.png")}/>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={goToVoluntari}>
-                    <Image style={imageStyle.imageMenuBottom} source={require("../../images/voluntari.png")}/>
-                    </TouchableOpacity>
-
-                </View>
-            </View>
-
-
-        </SafeAreaView>
-    )
-};
-
-export default CereriActivitati;
+                />*/
