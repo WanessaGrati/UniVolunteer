@@ -99,6 +99,8 @@ const GenerateQRCode = ({navigation}) => {
             const nume = userNumePrenume.data().Nume;
             const prenume = userNumePrenume.data().Prenume;
 
+            const uid = user.uid;
+
             console.log(nume);
             console.log(prenume);
 
@@ -124,7 +126,8 @@ const GenerateQRCode = ({navigation}) => {
                     hours,
                     status: 'waiting',
                     nume,
-                    prenume
+                    prenume,
+                    uid
                 }
             };
 

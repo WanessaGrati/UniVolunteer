@@ -5,7 +5,7 @@ import {MontserratFonts} from "../../resorces/MontserratFonts";
 import {Dimensions} from "react-native";
 import {useEffect, useState} from "react";
 import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
-import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 
 
 const CereriActivitati = ({navigation}) => {
@@ -39,7 +39,7 @@ const CereriActivitati = ({navigation}) => {
 
         getUsers().then(() => console.log("\n"));
 
-    }, []);
+    }, [approveButton, declineButton, ActivityItemWaiting]);
 
     if (!fontsLoaded) return undefined;
 
@@ -51,6 +51,30 @@ const CereriActivitati = ({navigation}) => {
         outputRange: [screenHeight * 0.4, screenHeight * 0.15],
         extrapolate: 'clamp'
     });
+
+    const approveButton = async (userUID, activity) => {
+        await setDoc(doc(database, "activitati", userUID), {
+            activities: {
+                [activity]: {
+                    status: "aproved"
+                }
+            }
+        }, {
+            merge: true
+        });
+    }
+
+    const declineButton = async (userUID, activity) => {
+        await setDoc(doc(database, "activitati", userUID), {
+            activities: {
+                [activity]: {
+                    status: "declined"
+                }
+            }
+        }, {
+            merge: true
+        });
+    }
 
     const ActivityItemWaiting = ({title, nume, prenume, hours, totalOre, onApprove, onDecline}) => (
         <View>
@@ -115,18 +139,6 @@ const CereriActivitati = ({navigation}) => {
         </View>
     );
 
-    const approveButton = async (userUID, activity) => {
-        await updateDoc(doc(database, "activitati", userUID, "activities", activity), {
-            status: "aproved"
-        });
-    }
-
-    const declineButton = async (userUID, activity) => {
-        await updateDoc(doc(database, "activitati", userUID, "activities", activity), {
-            status: "declined"
-        });
-    }
-
     return(
         <SafeAreaView style={containerStyle.container}>
 
@@ -155,7 +167,8 @@ const CereriActivitati = ({navigation}) => {
                                 Object.keys(users[userID]).map((activityKey) => {
                                     const activity = users[userID][activityKey];
 
-                                    console.log(users[userID][activityKey]);
+                                    //console.log(activityKey);
+                                    //console.log(activity.uid);
 
                                     if (activity.status === "waiting") {
                                         return (
@@ -166,8 +179,8 @@ const CereriActivitati = ({navigation}) => {
                                                     nume={activity.nume}
                                                     prenume={activity.prenume}
                                                     totalOre={activity.hours}
-                                                    onApprove={() => approveButton(userID, activity)}
-                                                    onDecline={() => declineButton(userID, activity)}
+                                                    onApprove={() => approveButton(activity.uid, activityKey)}
+                                                    onDecline={() => declineButton(activity.uid, activityKey)}
                                                 />
                                             </View>
                                         )
