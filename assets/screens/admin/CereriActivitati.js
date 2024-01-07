@@ -239,37 +239,3 @@ const CereriActivitati = ({navigation}) => {
 };
 
 export default CereriActivitati;
-
-/*<ActivityItemWaiting 
-                    title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa"
-                    nume="Nume"
-                    prenume="Prenume"
-                    totalOre="2"
-                />
-
-                <ActivityItem
-                    title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa"
-                    nume="Nume"
-                    prenume="Prenume"
-                    statusImage={require('../../images/declined-red.png')}
-                    totalOre="5"
-                />
-
-                <ActivityItemWaiting 
-                    title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa"
-                    nume="Nume"
-                    prenume="Prenume"
-                    totalOre="2"
-                />
-
-                <ActivityItem
-                    title="Titlu" 
-                    hours="oo.mm zz.ll.aaaa"
-                    nume="Nume"
-                    prenume="Prenume"
-                    statusImage={require('../../images/approved-green.png')}
-                    totalOre="5"
-                />*/
