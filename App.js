@@ -1,5 +1,5 @@
 import { NavigationContainer} from "@react-navigation/native";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Menu from "./assets/screens/voluntar/Menu";
 import Login from "./assets/screens/Login";
 import SetareParolaNoua from "./assets/screens/voluntar/SetareParolaNoua";
