@@ -14,6 +14,7 @@ import { updatePassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from "../../../firebase";
 import {buttonStyle, containerStyle, errorStyle, imageStyle, inputStyle, textStyle} from "../../resorces/style";
 import {MontserratFonts} from "../../resorces/MontserratFonts";
+import {verifyPassword} from "../admin/GenerateRandomPassword";
 
 const SetareParolaNoua = ({navigation}) => {
 
@@ -23,6 +24,7 @@ const SetareParolaNoua = ({navigation}) => {
     const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
     const [errorMessage, setErrorMessage] = useState(false);
+    const [errorPassword, setErrorPassword] = useState (false);
 
     const [fontsLoaded] = MontserratFonts();
     if (!fontsLoaded) return undefined;
@@ -32,17 +34,19 @@ const SetareParolaNoua = ({navigation}) => {
     };
 
     const handleButton = async () => {
-        if (newPassword === repeatNewPassword) {
-            setErrorMessage(false);
-            try {
-                const user = auth.currentUser;
-                await updatePassword(user, newPassword);
-                navigation.navigate("IntroducereDate");
-            } catch (error) {
-                Alert.alert("Eroare", "Parola nu a putut fi schimbată!");
-            }
-        }
-        else setErrorMessage(true);
+        if (verifyPassword(newPassword)) {
+            setErrorPassword(false);
+            if (newPassword === repeatNewPassword) {
+                setErrorMessage(false);
+                try {
+                    const user = auth.currentUser;
+                    await updatePassword(user, newPassword);
+                    navigation.navigate("IntroducereDate");
+                } catch (error) {
+                    Alert.alert("Eroare", "Parola nu a putut fi schimbată!");
+                }
+            } else setErrorMessage(true);
+        } else setErrorPassword(true);
     }
 
     return (
@@ -77,6 +81,7 @@ const SetareParolaNoua = ({navigation}) => {
                     <Text style={textStyle.subHead}>Trebuie să schimbați parola</Text>
 
                     <TextInput
+                        secureTextEntry={true}
                         placeholder="Introduceți parola nouă"
                         style={[inputStyle.textInput, {marginTop: 40}]}
                         placeholderTextColor='#999999'
@@ -85,6 +90,7 @@ const SetareParolaNoua = ({navigation}) => {
                     />
 
                     <TextInput
+                        secureTextEntry={true}
                         placeholder="Repetați parola introdusă"
                         style={[inputStyle.textInput, {marginTop: 20}]}
                         placeholderTextColor='#999999'
@@ -97,6 +103,14 @@ const SetareParolaNoua = ({navigation}) => {
                         <View style={[errorStyle.errorContainer, {marginLeft: 20}]}>
                             <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
                             <Text style={errorStyle.errorText}>Parolele nu coincid!</Text>
+                        </View>
+                    }
+
+                    {
+                        errorPassword &&
+                        <View style={[errorStyle.errorContainer, {marginLeft: 20}]}>
+                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                            <Text style={errorStyle.errorText}>Parola trebuie să conțină minim 8 caractere, minim o literă și minim o cifră!</Text>
                         </View>
                     }
                 </View>

@@ -156,7 +156,6 @@ const CereriActivitati = ({navigation}) => {
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Cereri</Text>
                     <Text style={textStyle.head}>activități</Text>
-                    <Text style={textStyle.subHead}>Ai {newActivities} cereri noi</Text>
                 </View>
             </Animated.View>
 

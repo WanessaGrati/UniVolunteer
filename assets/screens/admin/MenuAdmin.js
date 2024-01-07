@@ -48,7 +48,6 @@ const MenuAdmin = ({navigation}) => {
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Salut,</Text>
                     <Text style={textStyle.head}>UniVolunteer!</Text>
-                    <Text style={textStyle.subHead}>Ai 65 de voluntari</Text>
                 </View>
             </View>
 

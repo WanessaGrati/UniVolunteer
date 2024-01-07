@@ -37,4 +37,32 @@ const generateRandomPassword = () => {
 
     return password;
 };
+
+const isLetter = (password) => {
+    let i;
+    for (i = 0; i < password.length; i++) {
+        if ((password[i] >= 'a' && password[i] <= 'z') || (password[i] >= 'A' && password[i] <= 'Z')) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+const isDigit = (password) => {
+    let i;
+    for (i = 0; i < password.length; i++) {
+        if (password[i] >= '0' && password[i] <= '9') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+export const verifyPassword = (password) => {
+
+    if (password.length < 8) return false;
+    return !(!isDigit(password) && !isLetter(password));
+}
 export default generateRandomPassword;

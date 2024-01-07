@@ -8,10 +8,10 @@ import { MontserratFonts } from "../../resorces/MontserratFonts";
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { doc, getDoc } from "firebase/firestore";
-import * as FileSystem from 'expo-file-system';
+
+export let aprovedHours = 0;
 
 const Menu = ({navigation}) => {
-
 
     const auth = FIREBASE_AUTH;
     const database = FIREBASE_DATABASE;
@@ -22,6 +22,8 @@ const Menu = ({navigation}) => {
     const [facultatea, setFacultate] = useState('');
     const [an, setAn] = useState('');
     const [activities, setActivities] = useState({});
+
+    const [noActivities, setNoActivities] = useState(false);
 
     const [htmlList, setHtmlList] = useState('');
 
@@ -43,7 +45,14 @@ const Menu = ({navigation}) => {
             const userDataActivities = await getDoc(doc(database, "activitati", user.uid));
             const userActivities = userDataActivities.data().activities;
 
-            setActivities(userActivities);
+            console.log("Zaebisi");
+            console.log(userActivities);
+
+            if (userActivities === null || userActivities === undefined) setActivities(null);
+            else setActivities(userActivities);
+
+            //console.log(activities);
+
             setNume(n);
             setPrenume(p);
             setUniversitate(u);
@@ -60,19 +69,23 @@ const Menu = ({navigation}) => {
             let activityHtml = '';
             let total = 0;
 
-            Object.entries(activities).map(([activityKey, activity]) => {
-                if (activity.status === 'aproved') {
-                    titlu = activity.titlu;
-                    date = activity.date;
-                    hours = activity.hours;
-                    total += parseInt(activity.hours);
+            if (activities !== null) {
 
-                    activityHtml += htmlActivity(titlu, date, hours);
-                }
-            });
+                Object.entries(activities).map(([activityKey, activity]) => {
+                    if (activity.status === 'aproved') {
+                        titlu = activity.titlu;
+                        date = activity.date;
+                        hours = activity.hours;
+                        total += parseInt(activity.hours);
+
+                        activityHtml += htmlActivity(titlu, date, hours);
+                    }
+                });
+            }
 
             setHtmlList(activityHtml);
             setTotalOre(total);
+            aprovedHours = total;
 
             return 1;
         }

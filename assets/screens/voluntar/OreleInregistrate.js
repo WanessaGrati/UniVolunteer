@@ -6,6 +6,7 @@ import {Dimensions} from "react-native";
 import {useEffect, useState} from "react";
 import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
 import {doc, getDoc} from "firebase/firestore";
+import {aprovedHours} from "./Menu";
 
 const OreleInregistrate = ({navigation}) => {
 
@@ -25,7 +26,9 @@ const OreleInregistrate = ({navigation}) => {
 
             const userActivities = userDataActivities.data().activities;
             const userTotalActivities = userDataActivities.data().totalActivities;
-            setActivities(userActivities);
+
+            if (userActivities !== undefined && userActivities !== null) setActivities(userActivities);
+            else setActivities({});
 
             if (userTotalActivities > 0) setTotalActivities(true);
             else setTotalActivities(false);
@@ -97,7 +100,7 @@ const OreleInregistrate = ({navigation}) => {
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Orele</Text>
                     <Text style={textStyle.head}>înregistrate</Text>
-                    <Text style={textStyle.subHead}>Ai 65 de ore de voluntariat</Text>
+                    <Text style={textStyle.subHead}>Ai {aprovedHours} ore de voluntariat</Text>
                 </View>
             </Animated.View>
 
