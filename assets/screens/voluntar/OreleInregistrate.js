@@ -7,7 +7,6 @@ import {useEffect, useState} from "react";
 import {FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
 import {doc, getDoc} from "firebase/firestore";
 
-
 const OreleInregistrate = ({navigation}) => {
 
     const auth = FIREBASE_AUTH;
@@ -54,6 +53,10 @@ const OreleInregistrate = ({navigation}) => {
     const goToAddActivity = () => {
         navigation.navigate("AddActivity");
     };
+
+    const goToProfile = () => {
+        navigation.navigate('Profile');
+    }
 
     const pressButton = () => {}
 
@@ -136,7 +139,7 @@ const OreleInregistrate = ({navigation}) => {
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list_bold.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToProfile}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/user.png")}/>
                     </TouchableOpacity>
 

@@ -101,12 +101,9 @@ const GenerateQRCode = ({navigation}) => {
 
             const uid = user.uid;
 
-            console.log(nume);
-            console.log(prenume);
-
             if (!userDataActivities.exists()) {
                 setDoc(doc(database, "activitati", user.uid), {
-                    totalActivities: 0
+                    totalActivities: 1
                 }, {
                     merge: true
                 }).then(()=>console.log("totalActivitati initializat"));

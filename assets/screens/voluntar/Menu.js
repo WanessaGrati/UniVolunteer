@@ -8,19 +8,21 @@ import { MontserratFonts } from "../../resorces/MontserratFonts";
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { doc, getDoc } from "firebase/firestore";
+import * as FileSystem from 'expo-file-system';
 
 const Menu = ({navigation}) => {
 
+
     const auth = FIREBASE_AUTH;
     const database = FIREBASE_DATABASE;
-
+    const [totalOre, setTotalOre] = useState(0);
     const [nume, setNume] = useState('');
     const [prenume, setPrenume] = useState('');
     const [universitatea, setUniversitate] = useState('');
     const [facultatea, setFacultate] = useState('');
     const [an, setAn] = useState('');
     const [activities, setActivities] = useState({});
-    const [totalOre, setTotalOre] = useState(0);
+
     const [htmlList, setHtmlList] = useState('');
 
     const [fontsLoaded] = MontserratFonts()
@@ -102,15 +104,20 @@ const Menu = ({navigation}) => {
         <html>
         <style>
             @page {
-                margin: 3cm;
+                margin: 1cm;
             }
             
             body {
-                margin: 2cm;
+                margin: 1cm;
+            }
+            
+            p {
+                font-size: 20px;
             }
         </style>
             <body>
-                <h1>Raport de voluntariat</h1>
+                <h1><b>Raport de voluntariat</b></h1>
+                <br>
                     <p>
                         Prin prezenta se atestă faptul că studentul(a)
                         <b>${nume} ${prenume}</b>,
@@ -120,15 +127,17 @@ const Menu = ({navigation}) => {
                         are un număr de <b>${totalOre} ore de voluntariat</b>.
                     </p>
                     <br>
-                    ${htmlList}
+                    <p>${htmlList}</p>
+                    <br>
+                    <p><b>Total: ${totalOre}</b></p>
             </body>
         </html>
     `;
 
     const htmlActivity = (titlu, date, hours) => {
         return `<p>
-                    Denumire: ${titlu} <br>
-                    Data: ${date} <br>
+                    Activitate: <b>${titlu}</b><br>
+                    Data: <i>${date}</i> <br>
                     Ore: ${hours} <br>
                 </p>`;
     }
@@ -142,6 +151,15 @@ const Menu = ({navigation}) => {
         await shareAsync(file.uri);
     }
 
+    const goToScan = () => {
+        navigation.navigate('scanQRCode');
+    }
+
+    const goToProfile = () => {
+        navigation.navigate('Profile');
+    }
+
+
     return (
         <View style={containerStyle.container}>
             <StatusBar translucent/>
@@ -150,8 +168,8 @@ const Menu = ({navigation}) => {
                 <Text style={textStyle.appName}>UniVolunteer</Text>
                 <View style={{paddingTop: 60, paddingLeft: '5%'}}>
                     <Text style={textStyle.head}>Salut,</Text>
-                    <Text style={textStyle.head}>Prenume!</Text>
-                    <Text style={textStyle.subHead}>Ai 65 de ore de voluntariat</Text>
+                    <Text style={textStyle.head}>{prenume}!</Text>
+                    <Text style={textStyle.subHead}>Ai {totalOre} ore de voluntariat</Text>
                 </View>
             </View>
 
@@ -175,7 +193,7 @@ const Menu = ({navigation}) => {
 
                 <View style={{flexDirection: 'row', marginTop: 20}}>
 
-                    <TouchableOpacity style={buttonStyle.buttonMenu}>
+                    <TouchableOpacity style={buttonStyle.buttonMenu} onPress={goToScan}>
                         <Image style={imageStyle.imageMenu} source={require("../../images/qr_code.png")}/>
                         <Text style={[paddingStyle.paddingTop10, buttonStyle.buttonMenuText]}>Scan</Text>
                         <Text style={buttonStyle.buttonMenuText}>qr-code</Text>
@@ -201,7 +219,7 @@ const Menu = ({navigation}) => {
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/list.png")}/>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goToProfile}>
                         <Image style={imageStyle.imageMenuBottom} source={require("../../images/user.png")}/>
                     </TouchableOpacity>
 

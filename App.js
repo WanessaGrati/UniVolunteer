@@ -11,6 +11,8 @@ import OreleInregistrate from "./assets/screens/voluntar/OreleInregistrate";
 import CereriActivitati from './assets/screens/admin/CereriActivitati';
 import VoluntariInregistrati from './assets/screens/admin/VoluntariInregistrati';
 import AddActivity from "./assets/screens/voluntar/AddActivity";
+import scanQRCode from "./assets/screens/voluntar/scanQRCode";
+import ProfileInfo from "./assets/screens/voluntar/ProfileInfo";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,8 @@ export default function App() {
               <Stack.Screen name="OreleInregistrate" component={OreleInregistrate} options={{headerShown: false}}/>
               <Stack.Screen name="CereriActivitati" component={CereriActivitati} options={{headerShown: false}}/>
               <Stack.Screen name="VoluntariInregistrati" component={VoluntariInregistrati} options={{headerShown: false}}/>
+              <Stack.Screen name="scanQRCode" component={scanQRCode} options={{headerShown: false}}/>
+              <Stack.Screen name="Profile" component={ProfileInfo} options={{headerShown: false}}/>
           </Stack.Navigator>
       </NavigationContainer>
   );

@@ -26,6 +26,9 @@ const GenerateQRCode = ({navigation}) => {
     const [hours, setHours] = useState('');
     const [errorHours, setErrorHours] = useState(false);
 
+    const [qrCodeData, setQrCodeData] = useState('');
+    const [generatedQRCode, setGenerateQRCode] = useState(false);
+
     const [fontsLoaded] = MontserratFonts();
     if (!fontsLoaded) return undefined;
 
@@ -78,10 +81,16 @@ const GenerateQRCode = ({navigation}) => {
     }
 
     const handleButton = () => {
-        verifyEmptyTitlu();
-        verifyEmptyDate();
-        verifyEmptyHours();
-        verifyDate();
+        if (
+            verifyEmptyTitlu() &
+            verifyEmptyDate() &
+            verifyEmptyHours() &
+            verifyDate()
+        ) {
+            const qrCodeData = `${titlu}\n${date}\n${hours}`;
+            setQrCodeData(qrCodeData);
+            setGenerateQRCode(true);
+        }
     }
 
     const goToHome = () => {
@@ -111,82 +120,94 @@ const GenerateQRCode = ({navigation}) => {
 
                 </View>
 
+                {
+                    !generatedQRCode &&
+                    <View>
 
-                <View style={containerStyle.middleExtended}>
+                    <View style={containerStyle.middleExtended}>
 
-                    <Text style={textStyle.head}>Generează</Text>
-                    <Text style={textStyle.head}>qr-code</Text>
-                    <Text style={[textStyle.subHead, {fontSize: 12}]}>Câmpurile obligatorii sunt marcate cu *</Text>
+                        <Text style={textStyle.head}>Generează</Text>
+                        <Text style={textStyle.head}>qr-code</Text>
+                        <Text style={[textStyle.subHead, {fontSize: 12}]}>Câmpurile obligatorii sunt marcate cu *</Text>
 
-                    <Text style={[textStyle.detail, {marginTop: 20}]}>Titlul activității:*</Text>
-                    <TextInput
-                        placeholder="Introduceți titlul activității"
-                        style={[inputStyle.textInput, {marginTop: 5, width: '100%'}]}
-                        placeholderTextColor='#999999'
-                        value={titlu}
-                        onChangeText={(text) => setTitlu(text)}
-                    />
+                        <Text style={[textStyle.detail, {marginTop: 20}]}>Titlul activității:*</Text>
+                        <TextInput
+                            placeholder="Introduceți titlul activității"
+                            style={[inputStyle.textInput, {marginTop: 5, width: '100%'}]}
+                            placeholderTextColor='#999999'
+                            value={titlu}
+                            onChangeText={(text) => setTitlu(text)}
+                        />
 
-                    {
-                        errorTitlu &&
-                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
-                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={errorStyle.errorText}>Nu ați introdus titlul activității!</Text>
-                        </View>
-                    }
+                        {
+                            errorTitlu &&
+                            <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                                <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                                <Text style={errorStyle.errorText}>Nu ați introdus titlul activității!</Text>
+                            </View>
+                        }
 
-                    <Text style={[textStyle.detail, {marginTop: 20}]}>Data:*</Text>
-                    
-                    <TextInput
-                        placeholder="Introduceti în formatul: zz.ll.aaaa"
-                        style={[inputStyle.textInput, {width: '100%'}]}
-                        placeholderTextColor='#999999'
-                        value={date}
-                        onChangeText={(text) => setDate(text)}
-                        keyboardType='numeric'
-                    />
+                        <Text style={[textStyle.detail, {marginTop: 20}]}>Data:*</Text>
 
-                    {
-                        errorDate &&
-                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
-                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={errorStyle.errorText}>Nu ați introdus data!</Text>
-                        </View>
-                    }
+                        <TextInput
+                            placeholder="Introduceti în formatul: zz.ll.aaaa"
+                            style={[inputStyle.textInput, {width: '100%'}]}
+                            placeholderTextColor='#999999'
+                            value={date}
+                            onChangeText={(text) => setDate(text)}
+                            keyboardType='numeric'
+                        />
 
-                    {
-                        !errorDate && errorValidDate &&
-                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
-                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={errorStyle.errorText}>Introduceți o dată validă!</Text>
-                        </View>
-                    }
+                        {
+                            errorDate &&
+                            <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                                <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                                <Text style={errorStyle.errorText}>Nu ați introdus data!</Text>
+                            </View>
+                        }
 
-                    <Text style={[textStyle.detail, {marginTop: 20}]}>Orele de voluntariat:*</Text>
-                    
-                    <TextInput
-                        placeholder="Introduceți orele"
-                        style={[inputStyle.textInput, {width: '100%'}]}
-                        placeholderTextColor='#999999'
-                        keyboardType='numeric'
-                        value={hours}
-                        onChangeText={(text) => setHours(text)}
-                    />
+                        {
+                            !errorDate && errorValidDate &&
+                            <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                                <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                                <Text style={errorStyle.errorText}>Introduceți o dată validă!</Text>
+                            </View>
+                        }
 
-                    {
-                        errorHours &&
-                        <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
-                            <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
-                            <Text style={errorStyle.errorText}>Introduceți orele!</Text>
-                        </View>
-                    }
-                </View>
+                        <Text style={[textStyle.detail, {marginTop: 20}]}>Orele de voluntariat:*</Text>
 
-                <View style={containerStyle.bottom}>
-                    <TouchableOpacity style={buttonStyle.button} onPress={handleButton}>
-                        <Text style={buttonStyle.buttonText}>Generează</Text>
-                    </TouchableOpacity>
-                </View>
+                        <TextInput
+                            placeholder="Introduceți orele"
+                            style={[inputStyle.textInput, {width: '100%'}]}
+                            placeholderTextColor='#999999'
+                            keyboardType='numeric'
+                            value={hours}
+                            onChangeText={(text) => setHours(text)}
+                        />
+
+                        {
+                            errorHours &&
+                            <View style={[errorStyle.errorContainer, {marginLeft: 20, marginTop: 5}]}>
+                                <Image style={errorStyle.errorImage} source={require("../../images/errorMessage.png")}/>
+                                <Text style={errorStyle.errorText}>Introduceți orele!</Text>
+                            </View>
+                        }
+                    </View>
+
+                    <View style={containerStyle.bottom}>
+                        <TouchableOpacity style={buttonStyle.button} onPress={handleButton}>
+                            <Text style={buttonStyle.buttonText}>Generează</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                }
+
+                {
+                    generatedQRCode &&
+                    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                        <QRCode value={qrCodeData} size={200}/>
+                    </View>
+                }
 
             </KeyboardAvoidingView>
         </SafeAreaView>
