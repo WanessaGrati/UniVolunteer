@@ -15,7 +15,7 @@ import verifyValidDate from '../../resorces/DateAndTime';
 import {FIREBASE_APP, FIREBASE_AUTH, FIREBASE_DATABASE} from "../../../firebase";
 import {doc, setDoc, updateDoc, increment, getDoc} from "firebase/firestore";
 
-const GenerateQRCode = ({navigation}) => {
+const AddActivity = ({navigation}) => {
 
     const auth = FIREBASE_AUTH;
     const database = FIREBASE_DATABASE;
@@ -242,4 +242,4 @@ const GenerateQRCode = ({navigation}) => {
     );
 };
 
-export default GenerateQRCode;
+export default AddActivity;

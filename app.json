@@ -27,7 +27,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
-      }
+      },
+      "bundleIdentifier": "com.anonymous.UniVolunteer"
     },
     "android": {
       "adaptiveIcon": {
@@ -41,6 +42,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3b5da781-0ea3-4bd3-b28b-6e86ca7820c7"
+      }
     }
   }
 }
