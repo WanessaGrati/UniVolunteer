@@ -45,13 +45,8 @@ const Menu = ({navigation}) => {
             const userDataActivities = await getDoc(doc(database, "activitati", user.uid));
             const userActivities = userDataActivities.data().activities;
 
-            console.log("Zaebisi");
-            console.log(userActivities);
-
             if (userActivities === null || userActivities === undefined) setActivities(null);
             else setActivities(userActivities);
-
-            //console.log(activities);
 
             setNume(n);
             setPrenume(p);

@@ -61,7 +61,6 @@ const GenerateQRCode = ({navigation}) => {
         }
 
         const totalActivities = userDataActivities.data().totalActivities;
-        console.log(totalActivities);
 
         const activities = {
             [`activity${totalActivities}`]: {

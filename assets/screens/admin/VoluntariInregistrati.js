@@ -28,8 +28,6 @@ const VoluntariInregistrati = ({navigation}) => {
                 ...doc.data(),
             }));
 
-            console.log(data);
-
             setAllUsers(data);
             setTotalUsers(data.length);
         }
