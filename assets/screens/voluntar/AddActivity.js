@@ -106,7 +106,7 @@ const AddActivity = ({navigation}) => {
                     totalActivities: 1
                 }, {
                     merge: true
-                }).then(()=>console.log(""));
+                }).then(()=>console.log("totalActivitati initializat"));
             }
             else {
                 await updateDoc(doc(database, "activitati", user.uid), {

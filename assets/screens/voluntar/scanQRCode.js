@@ -36,7 +36,7 @@ const GenerateQRCode = ({navigation}) => {
         })();
     }, []);
 
-    const addActivity = async () => {
+    const addActivity = async (titlu, date, hours) => {
         const user = auth.currentUser;
 
         const userDataActivities = await getDoc(doc(database, "activitati", user.uid));
@@ -84,10 +84,28 @@ const GenerateQRCode = ({navigation}) => {
     const handleBarCodeScanned = async ({data}) => {
         setScanned(true);
         const [scannedTitlu, scannedData, scannedHours] = data.split('\n');
+        /*setTitlu(scannedTitlu);
+        console.log("Titlu:", scannedTitlu);
+        //console.log("Titlu:", titlu);
+        setTitlu(scannedTitlu, titlu => {
+            console.log("Titlu:", titlu);
+        });
+        setDate(scannedData);
+        setHours(scannedHours);
+
+        setTitlu(scannedTitlu, () => {
+            setDate(scannedData, () => {
+                setHours(scannedHours, async () => {
+                    await addActivity(); // Now the state is guaranteed to be updated
+                });
+            });
+        });*/
+
         setTitlu(scannedTitlu);
         setDate(scannedData);
         setHours(scannedHours);
-        await addActivity();
+        await addActivity(scannedTitlu, scannedData, scannedHours);
+
     }
 
     if (!fontsLoaded) return undefined;
